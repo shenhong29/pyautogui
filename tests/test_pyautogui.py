@@ -204,7 +204,7 @@ class TestGeneral(unittest.TestCase):
         self.assertNotEqual(x, mousex)
         self.assertEqual(y, mousey)
 
-    def test_onScreen(self):
+
         zero = P(0, 0)
         xone = P(1, 0)
         yone = P(0, 1)
@@ -361,8 +361,8 @@ class TestMouse(unittest.TestCase):
                 "%s tween move failed. mousepos set to %s instead of %s" % (tweenName, mousepos, destination),
             )
 
-    def test_moveRel(self):
-        # start at the center
+  
+          # start at the center
         desired = self.center
         pyautogui.moveTo(*desired)
         mousepos = P(*pyautogui.position())

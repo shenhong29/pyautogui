@@ -285,35 +285,36 @@ def useImageNotFoundException(value=None):
         raise PyAutoGUIException("useImageNotFoundException() ws called but pyscreeze isn't installed.")
 
 
-if sys.platform == "win32":  # PyGetWindow currently only supports Windows.
-    try:
-        from pygetwindow import (
-            Window,
-            getActiveWindow,
-            getActiveWindowTitle,
-            getWindowsAt,
-            getWindowsWithTitle,
-            getAllWindows,
-            getAllTitles,
+# if sys.platform == "win32":  # PyGetWindow currently only supports Windows.
+# pywinctl support win32, darwin, and linux
+try:
+    from pywinctl import (
+        Window,
+        getActiveWindow,
+        getActiveWindowTitle,
+        getWindowsAt,
+        getWindowsWithTitle,
+        getAllWindows,
+        getAllTitles,
+    )
+except ImportError:
+    # If pygetwindow module is not found, those methods will not be available.
+    def _couldNotImportPyGetWindow(*unused_args, **unused_kwargs):
+        """
+        This function raises PyAutoGUIException. It's used for the PyGetWindow function names if the PyGetWindow
+        module failed to be imported.
+        """
+        raise PyAutoGUIException(
+            "PyAutoGUI was unable to import pygetwindow. Please install this module to enable the function you tried to call."
         )
-    except ImportError:
-        # If pygetwindow module is not found, those methods will not be available.
-        def _couldNotImportPyGetWindow(*unused_args, **unused_kwargs):
-            """
-            This function raises PyAutoGUIException. It's used for the PyGetWindow function names if the PyGetWindow
-            module failed to be imported.
-            """
-            raise PyAutoGUIException(
-                "PyAutoGUI was unable to import pygetwindow. Please install this module to enable the function you tried to call."
-            )
 
-        Window = _couldNotImportPyGetWindow
-        getActiveWindow = _couldNotImportPyGetWindow
-        getActiveWindowTitle = _couldNotImportPyGetWindow
-        getWindowsAt = _couldNotImportPyGetWindow
-        getWindowsWithTitle = _couldNotImportPyGetWindow
-        getAllWindows = _couldNotImportPyGetWindow
-        getAllTitles = _couldNotImportPyGetWindow
+    Window = _couldNotImportPyGetWindow
+    getActiveWindow = _couldNotImportPyGetWindow
+    getActiveWindowTitle = _couldNotImportPyGetWindow
+    getWindowsAt = _couldNotImportPyGetWindow
+    getWindowsWithTitle = _couldNotImportPyGetWindow
+    getAllWindows = _couldNotImportPyGetWindow
+    getAllTitles = _couldNotImportPyGetWindow
 
 KEY_NAMES = [
     "\t",
